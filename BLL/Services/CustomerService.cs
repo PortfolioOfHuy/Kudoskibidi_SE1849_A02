@@ -35,5 +35,10 @@ namespace BLL.Services
         {
             return _customerRepository.Login(email, password);
         }
+
+        public bool UpdateCustomer(Customer customer)
+        {
+            return _customerRepository.UpdateCustomer(customer);
+        }
     }
 }

@@ -75,5 +75,32 @@ namespace DAL.Repositories
                 return new Customer();
             }
         }
+
+        public bool UpdateCustomer(Customer updatedCustomer)
+        {
+            try
+            {
+                var existingCustomer = _db.Customers.FirstOrDefault(x => x.CustomerId == updatedCustomer.CustomerId);
+
+                if (existingCustomer == null)
+                    return false;
+
+                // Cập nhật các thuộc tính cần thiết
+                existingCustomer.CustomerFullName = updatedCustomer.CustomerFullName;
+                existingCustomer.EmailAddress = updatedCustomer.EmailAddress;
+                existingCustomer.Telephone = updatedCustomer.Telephone;
+                existingCustomer.CustomerBirthday = updatedCustomer.CustomerBirthday;
+                existingCustomer.Password = updatedCustomer.Password;
+
+                _db.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error in UpdateCustomer: {ex.Message}");
+                return false;
+            }
+        }
+
     }
 }

@@ -53,7 +53,23 @@ namespace KudoskibidiWPF.Pages.Customer
 
         private void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                _currentCustomer.CustomerFullName = txtFullName.Text.Trim();
+                _currentCustomer.EmailAddress = txtEmail.Text.Trim();
+                _currentCustomer.Telephone = txtTelephone.Text.Trim();
+                _currentCustomer.CustomerBirthday = dpBirthday.SelectedDate.HasValue
+                    ? DateOnly.FromDateTime(dpBirthday.SelectedDate.Value)
+                    : null;
+                _currentCustomer.Password = pbPassword.Password;
 
+                var result = _customerService.UpdateCustomer(_currentCustomer);
+                MessageBox.Show(result ? "Cập nhật thành công!" : "Cập nhật thất bại.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi: {ex.Message}");
+            }
         }
 
         private void btnClear_Click(object sender, RoutedEventArgs e)
