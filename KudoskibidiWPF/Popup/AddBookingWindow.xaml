@@ -1,0 +1,70 @@
+﻿<Window x:Class="KudoskibidiWPF.Windows.AddBookingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Add Booking" Height="500" Width="450"
+        WindowStartupLocation="CenterOwner">
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Customer -->
+        <Label Content="Customer:" Grid.Row="0"/>
+        <ComboBox x:Name="cbCustomer" Grid.Row="0" Margin="120,0,0,5" DisplayMemberPath="CustomerFullName" SelectedValuePath="CustomerId"/>
+
+        <!-- Booking Date -->
+        <Label Content="Booking Date:" Grid.Row="1"/>
+        <DatePicker x:Name="dpBookingDate" Grid.Row="1" Margin="120,0,0,5"/>
+
+        <!-- Status -->
+        <Label Content="Status (0-1):" Grid.Row="2"/>
+        <TextBox x:Name="txtStatus" Grid.Row="2" Margin="120,0,0,5"/>
+
+        <!-- Total Price -->
+        <Label Content="Total Price:" Grid.Row="3"/>
+        <TextBox x:Name="txtTotalPrice" Grid.Row="3" Margin="120,0,0,5"/>
+
+        <!-- Room -->
+        <Label Content="Room:" Grid.Row="4"/>
+        <ComboBox x:Name="cbRoom" Grid.Row="4" Margin="120,0,0,5" DisplayMemberPath="RoomNumber" SelectedValuePath="RoomId"/>
+
+        <!-- Date Range -->
+        <StackPanel Grid.Row="5" Orientation="Horizontal" Margin="120,0,0,5">
+            <DatePicker x:Name="dpStartDate" Width="120" Margin="0,0,10,0"/>
+            <DatePicker x:Name="dpEndDate" Width="120"/>
+        </StackPanel>
+
+        <!-- Actual Price -->
+        <Label Content="Actual Price:" Grid.Row="6"/>
+        <TextBox x:Name="txtActualPrice" Grid.Row="6" Margin="120,0,0,5"/>
+
+        <!-- Add Room Button -->
+        <Button Content="Add Room" Grid.Row="7" Width="100" HorizontalAlignment="Left" Click="btnAddRoom_Click" Margin="120,5,0,5"/>
+
+        <!-- Booking Detail DataGrid -->
+        <DataGrid x:Name="dgBookingDetails" Grid.Row="8" Height="150" Margin="0,10,0,0"
+                  AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Room" Binding="{Binding Room.RoomNumber}" Width="*"/>
+                <DataGridTextColumn Header="Start Date" Binding="{Binding StartDate}" Width="*"/>
+                <DataGridTextColumn Header="End Date" Binding="{Binding EndDate}" Width="*"/>
+                <DataGridTextColumn Header="Actual Price" Binding="{Binding ActualPrice}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Buttons -->
+        <StackPanel Grid.Row="9" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+            <Button Content="Save" Width="80" Click="btnSave_Click" Margin="0,0,10,0"/>
+            <Button Content="Cancel" Width="80" Click="btnCancel_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>
