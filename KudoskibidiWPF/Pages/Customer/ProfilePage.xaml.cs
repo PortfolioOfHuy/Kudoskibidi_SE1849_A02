@@ -74,7 +74,19 @@ namespace KudoskibidiWPF.Pages.Customer
 
         private void btnClear_Click(object sender, RoutedEventArgs e)
         {
+            LoadCustomerData();
+        }
 
+        private void LoadCustomerData()
+        {
+            if (_currentCustomer != null)
+            {
+                txtFullName.Text = _currentCustomer.CustomerFullName;
+                txtEmail.Text = _currentCustomer.EmailAddress;
+                txtTelephone.Text = _currentCustomer.Telephone;
+                dpBirthday.SelectedDate = _currentCustomer.CustomerBirthday?.ToDateTime(TimeOnly.MinValue);
+                pbPassword.Password = _currentCustomer.Password;
+            }
         }
     }
 }
