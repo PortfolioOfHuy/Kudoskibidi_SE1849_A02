@@ -35,7 +35,7 @@ namespace KudoskibidiWPF
 
         private void btnBookingHistory_Click(object sender, RoutedEventArgs e)
         {
-
+            MainFrame.Content = new BookingHistoryPage(_currentCustomer);
         }
     }
 }

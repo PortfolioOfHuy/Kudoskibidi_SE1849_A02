@@ -1,0 +1,60 @@
+﻿<Page x:Class="KudoskibidiWPF.Pages.Customer.BookingHistoryPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:local="clr-namespace:KudoskibidiWPF.Pages.Customer"
+      mc:Ignorable="d"
+      Loaded="Page_Loaded"
+      Title="Booking History" Height="600" Width="900"
+      FontFamily="Tahoma" FontSize="13" Background="#FFF5F5DC">
+
+    <DockPanel>
+
+        <!-- Top Panel: Action Buttons -->
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="10">
+            <Button x:Name="btnRefresh" Content="Refresh" Click="btnRefresh_Click" Margin="0,0,10,0"/>
+            <Button x:Name="btnClearSelection" Content="Clear Selection" Click="btnClearSelection_Click"/>
+        </StackPanel>
+
+        <!-- Booking List -->
+        <GroupBox Header="Booking History" Margin="10" FontWeight="Bold">
+            <DockPanel>
+                <DataGrid x:Name="dgBookings"
+                          AutoGenerateColumns="False"
+                          IsReadOnly="True"
+                          SelectionChanged="dgBookings_SelectionChanged"
+                          Margin="5"
+                          CanUserAddRows="False"
+                          HeadersVisibility="Column">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Booking ID" Binding="{Binding BookingReservationId}" Width="80"/>
+                        <DataGridTextColumn Header="Booking Date" Binding="{Binding BookingDate}" Width="120"/>
+                        <DataGridTextColumn Header="Total Price" Binding="{Binding TotalPrice}" Width="120"/>
+                        <DataGridTextColumn Header="Status" Binding="{Binding BookingStatus}" Width="100"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </DockPanel>
+        </GroupBox>
+
+        <!-- Booking Details -->
+        <GroupBox Header="Booking Details" Margin="10" FontWeight="Bold" DockPanel.Dock="Bottom">
+            <DockPanel>
+                <DataGrid x:Name="dgBookingDetails"
+                          AutoGenerateColumns="False"
+                          IsReadOnly="True"
+                          Margin="5"
+                          CanUserAddRows="False"
+                          HeadersVisibility="Column">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Room" Binding="{Binding Room.RoomNumber}" Width="150"/>
+                        <DataGridTextColumn Header="Start Date" Binding="{Binding StartDate}" Width="120"/>
+                        <DataGridTextColumn Header="End Date" Binding="{Binding EndDate}" Width="120"/>
+                        <DataGridTextColumn Header="Actual Price" Binding="{Binding ActualPrice}" Width="120"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </DockPanel>
+        </GroupBox>
+
+    </DockPanel>
+</Page>
