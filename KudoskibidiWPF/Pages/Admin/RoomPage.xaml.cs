@@ -11,11 +11,13 @@ namespace KudoskibidiWPF.Pages.Admin
     public partial class RoomPage : Page
     {
         private readonly RoomInformationService _roomInformationService;
+        private readonly RoomTypeService _roomTypeService;
 
         public RoomPage()
         {
             InitializeComponent();
             _roomInformationService = new RoomInformationService();
+            _roomTypeService = new RoomTypeService();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -31,6 +33,9 @@ namespace KudoskibidiWPF.Pages.Admin
                 {
                     MessageBox.Show("Không có dữ liệu phòng!");
                 }
+
+                var roomTypes = _roomTypeService.GetAllRoomTypes();
+                cbRoomType.ItemsSource = roomTypes;
             }
             catch (Exception ex)
             {
@@ -40,9 +45,10 @@ namespace KudoskibidiWPF.Pages.Admin
 
         private void ClearForm()
         {
+            txtRoomId.Text = "";
             txtRoomNumber.Text = "";
             txtRoomDetailDescription.Text = "";
-            txtMaxCapacity = null;
+            txtMaxCapacity.Text = "";
             cbRoomType.SelectedIndex = -1;
             cbStatus.SelectedIndex = -1;
             txtPrice.Text = "";
@@ -50,10 +56,11 @@ namespace KudoskibidiWPF.Pages.Admin
 
         private void AutoFillInputFields(RoomInformation room)
         {
+            txtRoomId.Text = room.RoomId.ToString();
             txtRoomNumber.Text = room.RoomNumber ?? string.Empty;
             txtRoomDetailDescription.Text = room.RoomDetailDescription ?? string.Empty;
             txtMaxCapacity.Text = room.RoomMaxCapacity?.ToString() ?? string.Empty;
-            cbRoomType.SelectedValue = room.RoomType?.RoomTypeId;
+            cbRoomType.SelectedValue = room.RoomType.RoomTypeId;
             cbStatus.SelectedValue = room.RoomStatus;
             txtPrice.Text = room.RoomPricePerDay?.ToString("F2") ?? string.Empty;
         }
