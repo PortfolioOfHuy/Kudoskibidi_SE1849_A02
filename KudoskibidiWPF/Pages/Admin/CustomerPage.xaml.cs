@@ -1,5 +1,4 @@
 ﻿using BLL.Services;
-using DAL.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using DAL.Entities;
 
 namespace KudoskibidiWPF.Pages.Admin
 {
@@ -97,7 +97,7 @@ namespace KudoskibidiWPF.Pages.Admin
                     return;
                 }
 
-                var customer = new Customer
+                var customer = new DAL.Entities.Customer
                 {
                     CustomerFullName = txtFullName.Text.Trim(),
                     Telephone = telephone.Trim(),
@@ -170,7 +170,7 @@ namespace KudoskibidiWPF.Pages.Admin
                 return;
             }
 
-            if (dgCustomer.SelectedItem is Customer customer)
+            if (dgCustomer.SelectedItem is DAL.Entities.Customer customer)
             {
                 try
                 {
@@ -196,7 +196,7 @@ namespace KudoskibidiWPF.Pages.Admin
             var result = MessageBox.Show("Bạn có muốn xoá khách hàng này không?", "Xác nhận xoá", MessageBoxButton.YesNo, MessageBoxImage.Warning);
             if (result == MessageBoxResult.Yes)
             {
-                if (dgCustomer.SelectedItem is Customer customer)
+                if (dgCustomer.SelectedItem is DAL.Entities.Customer customer)
                 {
                     int id = customer.CustomerId;
                     _customerService.DeleteCustomer(id);
@@ -212,7 +212,7 @@ namespace KudoskibidiWPF.Pages.Admin
 
         private void dgCustomer_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (dgCustomer.SelectedItem is Customer customer)
+            if (dgCustomer.SelectedItem is DAL.Entities.Customer customer)
             {
                 AutoFillInputFields(customer);
             }
@@ -222,7 +222,7 @@ namespace KudoskibidiWPF.Pages.Admin
             }
         }
 
-        private void AutoFillInputFields(Customer customer)
+        private void AutoFillInputFields(DAL.Entities.Customer customer)
         {
             txtFullName.Text = customer.CustomerFullName;
             txtTelephone.Text = customer.Telephone;

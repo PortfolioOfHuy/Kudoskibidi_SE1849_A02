@@ -30,5 +30,10 @@ namespace BLL.Services
         {
             _customerRepository.DeleteCustomer(id);
         }
+
+        public Customer LoginCustomer(string email, string password)
+        {
+            return _customerRepository.Login(email, password);
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using KudoskibidiWPF.Utils;
+﻿using BLL.Services;
+using KudoskibidiWPF.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,9 +21,11 @@ namespace KudoskibidiWPF
     /// </summary>
     public partial class LoginWindow : Window
     {
+        private readonly CustomerService _customerService;
         public LoginWindow()
         {
             InitializeComponent();
+            _customerService = new CustomerService();
         }
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
@@ -30,11 +33,20 @@ namespace KudoskibidiWPF
             var email = txtEmail.Text.Trim();
             var password = pbPassword.Password;
 
+            var customer = _customerService.LoginCustomer(email, password);
+
             if (email == ConfigurationImport.AdminEmail &&
                 password == ConfigurationImport.AdminPassword)
             {
                 var adminDashboard = new AdminDashboard();
                 adminDashboard.Show();
+                this.Close();
+                return;
+            }
+            else if (customer != null)
+            {
+                var customerDashboard = new CustomerDashboard(customer);
+                customerDashboard.Show();
                 this.Close();
                 return;
             }

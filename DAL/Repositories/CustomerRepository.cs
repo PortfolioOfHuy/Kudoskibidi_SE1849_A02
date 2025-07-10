@@ -1,4 +1,5 @@
 ﻿using DAL.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace DAL.Repositories
 {
@@ -59,6 +60,19 @@ namespace DAL.Repositories
             {
                 Console.WriteLine($"Error in SearchCustomer: {ex.Message}");
                 return new List<Customer>();
+            }
+        }
+
+        public Customer Login(string email, string password)
+        {
+            try
+            {
+                return _db.Customers.FirstOrDefault(x => x.EmailAddress == email && x.Password == password);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error in Login: {ex.Message}");
+                return new Customer();
             }
         }
     }
