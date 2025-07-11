@@ -41,5 +41,10 @@ namespace BLL.Services
         {
             _bookingRepository.Delete(id);
         }
+
+        public List<BookingDetail> GetBookingReport(DateOnly startDate, DateOnly endDate)
+        {
+            return _bookingRepository.GetBookingReport(startDate, endDate);
+        }
     }
 }

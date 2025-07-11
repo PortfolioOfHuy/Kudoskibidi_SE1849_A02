@@ -1,16 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using DAL.Entities; // namespace chứa BookingDetail
+using BLL.Services; // namespace chứa BookingReservationService hoặc BookingService
 
 namespace KudoskibidiWPF.Pages.Admin
 {
@@ -19,9 +12,38 @@ namespace KudoskibidiWPF.Pages.Admin
     /// </summary>
     public partial class ReportPage : Page
     {
+        private readonly BookingService _bookingService;
+
         public ReportPage()
         {
             InitializeComponent();
+            _bookingService = new BookingService();
+        }
+
+        private void btnGenerateReport_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (dpStartDate.SelectedDate == null || dpEndDate.SelectedDate == null)
+                {
+                    MessageBox.Show("Please select both Start Date and End Date.");
+                    return;
+                }
+
+                DateOnly startDate = DateOnly.FromDateTime(dpStartDate.SelectedDate.Value);
+                DateOnly endDate = DateOnly.FromDateTime(dpEndDate.SelectedDate.Value);
+
+                var reportData = _bookingService.GetBookingReport(startDate, endDate);
+
+                dgReport.ItemsSource = reportData;
+
+                decimal totalRevenue = reportData.Sum(x => x.ActualPrice ?? 0);
+                txtTotalRevenue.Text = $"{totalRevenue:C}";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error generating report: {ex.Message}");
+            }
         }
     }
 }

@@ -70,5 +70,17 @@ namespace DAL.Repositories
             _db.BookingReservations.Add(booking);
             _db.SaveChanges();
         }
+
+        public List<BookingDetail> GetBookingReport(DateOnly startDate, DateOnly endDate)
+        {
+            return _db.BookingDetails
+                .Where(bd => bd.StartDate >= startDate && bd.StartDate <= endDate)
+                .Include(bd => bd.BookingReservation)
+                    .ThenInclude(br => br.Customer)
+                .Include(bd => bd.Room)
+                    .ThenInclude(r => r.RoomType)
+                .OrderByDescending(bd => bd.StartDate)
+                .ToList();
+        }
     }
 }
