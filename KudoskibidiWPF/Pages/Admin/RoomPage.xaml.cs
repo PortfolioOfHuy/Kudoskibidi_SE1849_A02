@@ -73,17 +73,109 @@ namespace KudoskibidiWPF.Pages.Admin
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                // Validate input
+                if (string.IsNullOrWhiteSpace(txtRoomNumber.Text))
+                {
+                    MessageBox.Show("Please enter Room Number.");
+                    return;
+                }
 
+                if (cbRoomType.SelectedValue == null)
+                {
+                    MessageBox.Show("Please select Room Type.");
+                    return;
+                }
+
+                var room = new RoomInformation
+                {
+                    RoomNumber = txtRoomNumber.Text.Trim(),
+                    RoomDetailDescription = txtRoomDetailDescription.Text.Trim(),
+                    RoomMaxCapacity = int.TryParse(txtMaxCapacity.Text, out int cap) ? cap : null,
+                    RoomTypeId = Convert.ToInt32(cbRoomType.SelectedValue),
+                    RoomStatus = Convert.ToByte(((ComboBoxItem)cbStatus.SelectedItem)?.Tag ?? 1),
+                    RoomPricePerDay = decimal.TryParse(txtPrice.Text, out decimal price) ? price : null
+                };
+
+                _roomInformationService.AddRoom(room);
+
+                MessageBox.Show("Room added successfully!");
+
+                Window_Loaded(sender, e); // Reload DataGrid
+                ClearForm();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error adding room: {ex.Message}");
+            }
         }
 
         private void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(txtRoomId.Text))
+                {
+                    MessageBox.Show("Please select a room to update.");
+                    return;
+                }
 
+                int roomId = Convert.ToInt32(txtRoomId.Text);
+
+                var updatedRoom = new RoomInformation
+                {
+                    RoomId = roomId,
+                    RoomNumber = txtRoomNumber.Text.Trim(),
+                    RoomDetailDescription = txtRoomDetailDescription.Text.Trim(),
+                    RoomMaxCapacity = int.TryParse(txtMaxCapacity.Text, out int cap) ? cap : null,
+                    RoomTypeId = Convert.ToInt32(cbRoomType.SelectedValue),
+                    RoomStatus = Convert.ToByte(((ComboBoxItem)cbStatus.SelectedItem)?.Tag ?? 1),
+                    RoomPricePerDay = decimal.TryParse(txtPrice.Text, out decimal price) ? price : null
+                };
+
+                _roomInformationService.UpdateRoom(updatedRoom);
+
+                MessageBox.Show("Room updated successfully!");
+                Window_Loaded(sender, e);
+                ClearForm();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error updating room: {ex.Message}");
+            }
         }
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(txtRoomId.Text))
+                {
+                    MessageBox.Show("Please select a room to delete.");
+                    return;
+                }
 
+                int roomId = Convert.ToInt32(txtRoomId.Text);
+
+                var result = MessageBox.Show("Are you sure you want to delete this room?",
+                                             "Confirm Delete",
+                                             MessageBoxButton.YesNo,
+                                             MessageBoxImage.Warning);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    _roomInformationService.DeleteRoom(roomId);
+                    MessageBox.Show("Room deleted (or marked inactive) successfully.");
+
+                    Window_Loaded(sender, e); // Reload DataGrid
+                    ClearForm();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error deleting room: {ex.Message}");
+            }
         }
 
         private void btnClear_Click(object sender, RoutedEventArgs e)

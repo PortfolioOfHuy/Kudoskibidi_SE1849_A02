@@ -29,7 +29,7 @@ namespace BLL.Services
 
         public void AddBooking(BookingReservation booking)
         {
-            _bookingRepository.AddBookingWithDetails(booking);
+            _bookingRepository.Add(booking);
         }
 
         public void UpdateBooking(BookingReservation booking)

@@ -28,5 +28,10 @@ namespace BLL.Services
         {
             _roomInformationRepository.DeleteRoom(id);
         }
+
+        public void UpdateRoom(RoomInformation roomInformation)
+        {
+            _roomInformationRepository.UpdateRoom(roomInformation);
+        }
     }
 }
